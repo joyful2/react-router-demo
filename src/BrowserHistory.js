@@ -1,51 +1,42 @@
-import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
-import PropTypes from 'prop-types'
-import qs from 'qs'
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import PropTypes from "prop-types";
+import qs from "qs";
 
-
-window.onhashchange = function(event) {
+window.onhashchange = function (event) {
   console.log(event.oldURL);
   console.log(event.newURL);
   console.log(window.location.hash);
 };
 
-class Router extends React.Component{
+class Router extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: window.location.pathname
-    }
-    this.history = window.history
+      url: window.location.pathname,
+    };
+    this.history = window.history;
     this.history.route = (name) => {
+      // todo: 为什么我的window.history.route不一样？
       this.setState({
-        url: `/${name}`
-      })
-      window.history.pushState(null,null,name)
-    }
-  }
-
-  render() {
-    return (
-      <>
-        {this.props.children}
-      </>
-    );
+        url: `/${name}`,
+      });
+      window.history.pushState(null, null, name);
+    };
   }
 
   static childContextTypes = {
     url: PropTypes.string,
-    history: PropTypes.object
-  }
+    history: PropTypes.object,
+  };
 
-  getChildContext () {
+  getChildContext() {
     return {
       url: this.state.url,
-      history: this.history
-    }
+      history: this.history,
+    };
   }
-
 
   componentDidMount() {
     // window.onhashchange = () => {
@@ -55,57 +46,45 @@ class Router extends React.Component{
     // }
 
     window.onpopstate = (a) => {
-      console.log(a)
-    }
-  }
-
-}
-
-class Route extends React.Component{
-
-  static contextTypes = {
-    url: PropTypes.string,
-    history: PropTypes.object
+      console.log(a);
+    };
   }
 
   render() {
-    const {
-      component,
-      path
-    } = this.props
-    const {
-      url
-    } = this.context
-
-    let instance = React.createElement('div', component)
-    return (
-      <>
-        {url === path &&  React.createElement(component,null,null)}
-      </>
-    );
+    return <>{this.props.children}</>;
   }
-
-
-  componentDidMount() {
-
-  }
-
 }
 
-const AA = () => <div>aa</div>
-const BB = () => <div>bb</div>
+class Route extends React.Component {
+  static contextTypes = {
+    url: PropTypes.string,
+    history: PropTypes.object,
+  };
+
+  render() {
+    const { component, path } = this.props;
+    const { url } = this.context;
+
+    let instance = React.createElement("div", component);
+    return <>{url === path && React.createElement(component, null, null)}</>;
+  }
+
+  componentDidMount() {}
+}
+
+const AA = () => <div>aa</div>;
+const BB = () => <div>bb</div>;
 
 function App() {
   return (
     <div className="App">
-      <Router >
+      <Router>
         <header className="App-header">
           <div>header</div>
-          <Route path='/aa' component={AA}/>
-          <Route path='/bb' component={BB}/>
+          <Route path="/aa" component={AA} />
+          <Route path="/bb" component={BB} />
         </header>
       </Router>
-
     </div>
   );
 }
