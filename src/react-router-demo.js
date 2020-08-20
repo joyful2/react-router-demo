@@ -1,17 +1,17 @@
 import React from "react";
-import {Router,Route,BrowserRouter} from 'react-router-dom'
-import {createBrowserHistory} from 'history'
+import { Router, Route, BrowserRouter } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 let BrowserHistory = createBrowserHistory()
-class AA extends React.Component{
+class AA extends React.Component {
 	render() {
 		return (
 			<div>
-				aa
+				aa0--0--
 			</div>
 		);
 	}
 }
-class BB extends React.Component{
+class BB extends React.Component {
 	render() {
 		return (
 			<div>
@@ -29,11 +29,10 @@ function App() {
 			<BrowserRouter basename={'/users'}>
 				<header className="App-header" >
 					<div>header</div>
-					<Route path='/aa' component={AA}/>
-					<Route path='/bb' component={BB}/>
+					<Route path='/aa' component={AA} />
+					<Route path='/bb' component={BB} />
 				</header>
 			</BrowserRouter>
-
 		</div>
 	);
 }

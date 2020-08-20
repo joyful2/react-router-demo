@@ -18,7 +18,6 @@ class Router extends React.Component {
     };
     this.history = window.history;
     this.history.route = (name) => {
-      // todo: 为什么我的window.history.route不一样？
       this.setState({
         url: `/${name}`,
       });
@@ -39,17 +38,10 @@ class Router extends React.Component {
   }
 
   componentDidMount() {
-    // window.onhashchange = () => {
-    //   this.setState({
-    //     hash: this.getHash()
-    //   })
-    // }
-
     window.onpopstate = (a) => {
-      console.log(a);
+      console.log('a:', a);
     };
   }
-
   render() {
     return <>{this.props.children}</>;
   }
@@ -58,18 +50,16 @@ class Router extends React.Component {
 class Route extends React.Component {
   static contextTypes = {
     url: PropTypes.string,
-    history: PropTypes.object,
+    history: PropTypes.object, // todo:history是用来干嘛的？
   };
 
   render() {
     const { component, path } = this.props;
     const { url } = this.context;
-
+    console.log('url:', url)
     let instance = React.createElement("div", component);
     return <>{url === path && React.createElement(component, null, null)}</>;
   }
-
-  componentDidMount() {}
 }
 
 const AA = () => <div>aa</div>;
